@@ -121,3 +121,7 @@ Simply run `npm test` and all your tests in the `test/` directory will be run. I
 ## License
 
 Licensed under the [MIT license](LICENSE).
+
+## Inspiration
+
+Original feathers service template was [feathers-messagebord](https://github.com/fratzinger/feathers-messagebird) by Frederik Schmatz.
