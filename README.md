@@ -28,10 +28,13 @@ Also see:
 - [x] Support different scheduling types:
   - [x] `every()` / `repeatEvery()`
 
+## In progress
+
+- [ ] Implement out-of-the-box job processor `ServiceCall` for easily scheduling Feathers service calls
+
 ## Todo (contributions welcome)
 
 - [ ] Tests
-- [ ] Implement out-of-the-box job processor `ServiceCall` for easily scheduling Feathers service calls
 - [ ] List jobs
 - [ ] Delete jobs
 - [ ] Canceling, disabling and enabling jobs
