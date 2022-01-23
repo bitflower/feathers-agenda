@@ -1,12 +1,17 @@
-import { Agenda } from 'agenda';
+import { Agenda, AgendaConfig } from 'agenda';
 import { AdapterService } from '@feathersjs/adapter-commons';
 // import util from "util";
 
-import type { Params } from '@feathersjs/feathers';
+import type { Application, Params } from '@feathersjs/feathers';
 // import { filterQuery } from "@feathersjs/adapter-commons"
 import { MethodNotAllowed } from '@feathersjs/errors';
-import type { FeathersAgendaOptions, MaybeArray } from '../types';
-import { AgendaJobSchedule } from '..';
+import type {
+  AgendaJobSchedule,
+  FeathersAgendaOptions,
+  MaybeArray,
+} from '../types';
+import { getJobDefinitions } from '../job-definitions';
+import { AgendaJobDefinition } from '..';
 // import { errorHandler } from '../utils';
 
 // const alwaysMulti: { [key: string]: boolean } = {
@@ -16,19 +21,15 @@ import { AgendaJobSchedule } from '..';
 // };
 
 export class AgendaService<T> extends AdapterService {
+  _app: Application;
   _agenda: Agenda;
+  _jobDefinitions: AgendaJobDefinition[];
+  _agendaConfig: AgendaConfig;
 
   constructor({ agendaConfig, jobDefinitions }: FeathersAgendaOptions) {
     super({});
-    this._agenda = new Agenda(agendaConfig);
-
-    jobDefinitions.forEach((jobDefinition) => {
-      this.agenda.define(jobDefinition.name, async (job) =>
-        jobDefinition.callback(job)
-      );
-    });
-
-    this.agenda.start(); // TODO: Is async and needs await
+    this._agendaConfig = agendaConfig;
+    this._jobDefinitions = jobDefinitions;
   }
 
   protected get agenda() {
@@ -75,12 +76,14 @@ export class AgendaService<T> extends AdapterService {
   //   return await this.read(id).catch<Message>(errorHandler);
   // }
 
-  protected async createOne(data: AgendaJobSchedule<T>, params: Params) {
-    console.log('Creating Job !', data);
+  protected async createOne(jobSchedule: AgendaJobSchedule<T>, params: Params) {
+    console.log('Creating Job !', jobSchedule);
 
-    const job = await this.agenda.create(data.name, data);
+    const { name, data, interval } = jobSchedule;
 
-    const scheduledJob = await job.repeatEvery(data.interval, {
+    const job = await this.agenda.create(name, data);
+
+    const scheduledJob = await job.repeatEvery(interval, {
       skipImmediate: true,
       // timezone: "Europe/Berlin",
       // startDate: new Date(),
@@ -158,6 +161,20 @@ export class AgendaService<T> extends AdapterService {
   //   return option.includes(method);
   // }
 
-  // async setup() {
-  // }
+  setup(app: Application) {
+    this._app = app;
+
+    this._agenda = new Agenda(this._agendaConfig);
+
+    const mergedJobDefinitions = [
+      ...getJobDefinitions(this._app),
+      ...this._jobDefinitions,
+    ];
+
+    mergedJobDefinitions.forEach((jobDefinition) => {
+      this.agenda.define(jobDefinition.name, jobDefinition.callback);
+    });
+
+    this.agenda.start(); // TODO: Is async and needs await?
+  }
 }
