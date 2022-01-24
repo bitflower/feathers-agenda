@@ -47,9 +47,9 @@ Also see:
 
 ## Usage
 
-### With `app.use()`
-
 For a quick start no further configuration is required. The librar will pick the MongoDB url from the Feathers `config.mongodb` property.
+
+### With `app.use()`
 
 ```typescript
 import { AgendaService } from 'feathers-agenda';
@@ -147,4 +147,4 @@ Licensed under the [MIT license](LICENSE).
 
 ## Inspiration
 
-Original feathers service template was [feathers-messagebord](https://github.com/fratzinger/feathers-messagebird) by Frederik Schmatz.
+Original feathers service template was [feathers-messagebird](https://github.com/fratzinger/feathers-messagebird) by Frederik Schmatz.
