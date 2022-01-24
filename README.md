@@ -43,6 +43,7 @@ Also see:
 - [ ] handle `SIGTERM` properly to avoid dead agenda record (e.g. `lockedAt` is set instead of `undefined`)
 - [ ] [Interact with events](https://github.com/agenda/agenda#agenda-events)
 - [ ] Update to latest `@feathers/feathers`
+- [ ] Mixin API to comfortably scheduling service calls from within the code base
 
 ## Usage
 
@@ -73,18 +74,29 @@ import { setup } from 'feathers-agenda';
 app.configure(setup);
 
 app.service("agendas").create({
-  originator : '31970XXXXXXX',
-  recipients : [ '31970YYYYYYY' ],
-  body : 'Hello World, I am a text message and I was hatched by Javascript code!'
+  name : 'ServiceCall',
+  interval : '*/20 * * * * *', // Every 20 seconds
+  data: {
+    service: '',
+    method: 'get',
+    data: {
+      // The data you want to pass into the job
+      // An `_id` for a `get` call or an object for `create` or other methods
+    },
+    params: {
+      // Any Feathers `params you want to pass in`
+    }
+  }
 })
 
 ```
 
-#### Custom job definition example
+### Custom job definition example
 
 ```typescript
 import { FeathersAgendaOptions, setup } from 'feathers-agenda';
 
+// Define the name and the code of a job you want to run periodically / in a scheduled way
 app.configure((app) => {
   const customConfigAndJobs: FeathersAgendaOptions = {
     jobDefinitions: [
@@ -92,14 +104,9 @@ app.configure((app) => {
         name: 'MyJob',
         callback: async (job: any) => {
           const { attrs: { _id } } = job;
-          console.log(
-            `MY JOB ${job.attrs._id} IS RUNNING now at: ${new Date()}!`,
-            job.attrs.data
-          );
           const record = await app
-            .service('some-service')
-            .get(_id);
-          console.log(`Record with ${_id} loaded:`, record);
+            .service('email-sending-service')
+            .post(_id);
         }
       }
     ]
@@ -107,6 +114,7 @@ app.configure((app) => {
   setup(app, customConfigAndJobs);
 });
 
+// Actually schedule the job
 app.service("agendas").create({
   name : 'MyJob',
   interval : '*/20 * * * * *', // Every 20 seconds
