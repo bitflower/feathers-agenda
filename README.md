@@ -1,6 +1,6 @@
 # feathers-agenda
 
-A [feathers.js](https://feathersjs.com/) service adapter for [agendajs](http://agendajs.com/).
+A [feathers.js](https://feathersjs.com/) service adapter for [agendajs](http://agendajs.com/) written in Typescript.
 
 [![npm](https://img.shields.io/npm/v/feathers-agenda)](https://www.npmjs.com/package/feathers-agenda)
 [![libraries.io](https://img.shields.io/librariesio/release/npm/feathers-agenda)](https://libraries.io/npm/feathers-agenda)
