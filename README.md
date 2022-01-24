@@ -59,9 +59,19 @@ app.use("/agendas", new AgendaService({
 }))
 
 app.service("agendas").create({
-  name : '31970XXXXXXX',
-  recipients : [ '31970YYYYYYY' ],
-  body : 'Hello World, I am a text message and I was hatched by Javascript code!'
+  name : 'ServiceCall',
+  interval : '*/20 * * * * *', // Every 20 seconds
+  data: {
+    service: '',
+    method: 'get',
+    data: {
+      // The data you want to pass into the job
+      // An `_id` for a `get` call or an object for `create` or other methods
+    },
+    params: {
+      // Any Feathers `params you want to pass in`
+    }
+  }
 })
 
 ```
