@@ -113,6 +113,8 @@ app.configure((app) => {
       {
         name: 'MyJob',
         callback: async (job: any) => {
+
+          // Do anything you want here (like service calls, business logic, etc)
           const { attrs: { _id } } = job;
           const record = await app
             .service('email-sending-service')
