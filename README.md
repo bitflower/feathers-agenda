@@ -47,7 +47,7 @@ Also see:
 
 ## Usage
 
-For a quick start no further configuration is required. The librar will pick the MongoDB url from the Feathers `config.mongodb` property.
+For a quick start no further configuration is required. The library will pick the MongoDB url from the Feathers `config.mongodb` property.
 
 ### With `app.use()`
 
@@ -69,7 +69,7 @@ app.service("agendas").create({
       // An `_id` for a `get` call or an object for `create` or other methods
     },
     params: {
-      // Any Feathers `params you want to pass in`
+      // Any Feathers `params` you want to pass in
     }
   }
 })
@@ -94,7 +94,7 @@ app.service("agendas").create({
       // An `_id` for a `get` call or an object for `create` or other methods
     },
     params: {
-      // Any Feathers `params you want to pass in`
+      // Any Feathers `params` you want to pass in
     }
   }
 })
