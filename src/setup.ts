@@ -1,10 +1,10 @@
-import { App } from '@feathersjs/feathers';
+import { Application } from '@feathersjs/feathers';
 import merge from 'deepmerge';
 
 import { AgendaService } from '.';
 import { FeathersAgendaOptions } from './types';
 
-export async function setup(app: App, options?: FeathersAgendaOptions) {
+export async function setup(app: Application, options?: FeathersAgendaOptions) {
   const defaults: FeathersAgendaOptions = {
     agendaConfig: {
       db: {
