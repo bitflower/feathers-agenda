@@ -1,4 +1,6 @@
-import assert from "assert";
+import { describe, it } from "node:test";
+import assert from "node:assert/strict";
+
 import { AgendaService } from "../src";
 
 describe("index", function () {
