@@ -1,6 +1,6 @@
 {
   "name": "feathers-agenda",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Agendajs adapter for feathers",
   "author": "Matthias Max",
   "homepage": "https://github.com/bitflower/feathers-agenda",
