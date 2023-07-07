@@ -29,7 +29,7 @@ export class AgendaService<T> extends AdapterService {
   constructor({ agendaConfig, jobDefinitions }: FeathersAgendaOptions) {
     super({});
     this._agendaConfig = agendaConfig;
-    this._jobDefinitions = jobDefinitions;
+    this._jobDefinitions = jobDefinitions || [];
   }
 
   protected get agenda() {
@@ -77,8 +77,6 @@ export class AgendaService<T> extends AdapterService {
   // }
 
   protected async createOne(jobSchedule: AgendaJobSchedule<T>, params: Params) {
-    console.log('Creating Job !', jobSchedule);
-
     const { name, data, interval } = jobSchedule;
 
     const job = await this.agenda.create(name, data);
@@ -161,7 +159,7 @@ export class AgendaService<T> extends AdapterService {
   //   return option.includes(method);
   // }
 
-  setup(app: Application) {
+  async setup(app: Application) {
     this._app = app;
 
     this._agenda = new Agenda(this._agendaConfig);
@@ -175,6 +173,10 @@ export class AgendaService<T> extends AdapterService {
       this.agenda.define(jobDefinition.name, jobDefinition.callback);
     });
 
-    this.agenda.start(); // TODO: Is async and needs await?
+    await this.agenda.start(); // TODO: Is async and needs await?
+  }
+
+  async stop() {
+    await this.agenda.stop();
   }
 }

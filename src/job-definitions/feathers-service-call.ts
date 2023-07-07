@@ -35,7 +35,9 @@ export const getJobDefinition = (app: Application) => {
 
       try {
         // Important: Pass `params` as new object otherwise this changes the actual job which is tried to be saved to DB and could contain chars that are not allowed by MongoDB (e.g. $-sign)
-        const result = await app.service(service)[method](data, clone(params));
+        const result = await app
+          .service(service)
+          [method](data, params && clone(params));
         // TODO Add logger
         console.log(
           `Finished Running "ServiceCall" job ${
