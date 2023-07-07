@@ -33,6 +33,9 @@
     "lib/**",
     "dist/**"
   ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "scripts": {
     "build": "shx rm -rf dist/ && tsup src/index.ts --format cjs,esm --dts",
     "version": "npm run build",
