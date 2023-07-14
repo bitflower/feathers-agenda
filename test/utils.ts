@@ -6,6 +6,11 @@ let mongoServer: MongoMemoryServer;
 export async function getMongoUri(app: Application) {
   // Source: https://discord.com/channels/509848480760725514/930352418179391528/1050452380833042493 (Marshall)
   let connectionUri;
+
+  if (mongoServer) {
+    return mongoServer.getUri();
+  }
+
   try {
     mongoServer = await MongoMemoryServer.create({
       instance: { dbName: 'case-os' }
@@ -18,8 +23,9 @@ export async function getMongoUri(app: Application) {
   }
 }
 
-export function stopMongoServer() {
+export async function stopMongoServer() {
   if (mongoServer) {
-    mongoServer.stop();
+    mongoServer.removeAllListeners();
+    await mongoServer.stop();
   }
 }

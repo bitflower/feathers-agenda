@@ -26,12 +26,12 @@ export const getJobDefinition = (app: Application) => {
       } = job;
 
       // TODO Add logger
-      console.log(`Running "ServiceCall" job ${_id} at ${new Date()}`, {
-        service,
-        method,
-        data,
-        params,
-      });
+      // console.log(`Running "ServiceCall" job ${_id} at ${new Date()}`, {
+      //   service,
+      //   method,
+      //   data,
+      //   params,
+      // });
 
       try {
         // Important: Pass `params` as new object otherwise this changes the actual job which is tried to be saved to DB and could contain chars that are not allowed by MongoDB (e.g. $-sign)
@@ -39,12 +39,12 @@ export const getJobDefinition = (app: Application) => {
           .service(service)
           [method](data, params && clone(params));
         // TODO Add logger
-        console.log(
-          `Finished Running "ServiceCall" job ${
-            job.attrs._id
-          } at ${new Date()} =>`,
-          result
-        );
+        // console.log(
+        //   `Finished Running "ServiceCall" job ${
+        //     job.attrs._id
+        //   } at ${new Date()} =>`,
+        //   result
+        // );
       } catch (error) {
         console.log(`BF MÖÖÖP`, { error });
       }

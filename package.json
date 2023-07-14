@@ -66,7 +66,7 @@
     "@feathersjs/adapter-commons": "^4.5.16",
     "@feathersjs/errors": "^4.5.16",
     "@feathersjs/feathers": "^4.5.16",
-    "agenda": "^4.2.1",
-    "deepmerge": "^4.2.2"
+    "agenda": "^5.0.0",
+    "deepmerge": "^4.3.1"
   }
 }

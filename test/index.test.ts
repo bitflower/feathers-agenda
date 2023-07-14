@@ -8,16 +8,16 @@ import { AgendaService, FeathersAgendaOptions, setup } from '../src';
 
 import { getMongoUri, stopMongoServer } from './utils';
 
+// This test still finishes somehow unclean in terms of reporting `utils.ts` as a test file
+
 describe('index', function () {
   let app: Application;
   before(function () {
     app = feathers();
     app.use('/todos', service());
   });
-  after(function () {
-    stopMongoServer();
-    // Probably hacky but works
-    process.exit(0);
+  after(async function () {
+    await stopMongoServer();
   });
 
   it('exports all members', function () {
@@ -50,9 +50,6 @@ describe('index', function () {
         service: 'todos',
         method: 'create',
         data: newTodo
-        // params: {
-        //   // Any Feathers `params` you want to pass in
-        // },
       }
     });
 

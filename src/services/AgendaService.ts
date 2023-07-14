@@ -177,6 +177,10 @@ export class AgendaService<T> extends AdapterService {
   }
 
   async stop() {
+    await this.agenda.cancel({});
+    await this.agenda.drain();
+    await this.agenda.purge();
     await this.agenda.stop();
+    await this.agenda.close();
   }
 }
